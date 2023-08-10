@@ -1,0 +1,71 @@
+body
+{
+  background-color: #370c58;
+  font-family: Agency, Helvetica, Arial;
+  color: #eeeeee;
+}
+
+h3
+{
+    margin-block-start: 2em;
+    margin-block-end: 0.5em;
+}
+
+.send-button {
+  background-color: #AE2CCF;
+  color: white;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.hidden
+{
+    display: none;
+}
+
+.same-line
+{
+  display: flex;
+  grid-gap: 0.5em;
+}
+
+main
+{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+td
+{
+    padding: 0px;
+}
+
+.flex-container
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-component
+{
+    width: 400px;
+    border: 1px;
+    border-color: #d7cede;
+    border-style: dashed;
+    padding: 20px;
+    background-color: #0c5837;
+    margin: 20px;
+}
+
+section
+{
+    width:65%;
+    margin: 3%;
+}
+
+aside
+ {
+    width: 35%;
+    margin: 3%;
+}

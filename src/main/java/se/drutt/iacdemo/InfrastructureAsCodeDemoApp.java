@@ -4,16 +4,16 @@ import software.amazon.awscdk.App;
 import software.amazon.awscdk.Environment;
 import software.amazon.awscdk.StackProps;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Properties;
-import java.net.URL;
 
 public class InfrastructureAsCodeDemoApp
 {
-    public static final String PROD_CONFIG = "prod_config.txt";
+    public static final String PROD_CONFIG = "./src/main/resources/prod_config.txt";
+
     public static void main(final String[] args)
     {
         App app = new App();
@@ -45,13 +45,12 @@ public class InfrastructureAsCodeDemoApp
 
     private static Properties loadConfig(String fileName) throws IOException
     {
-        URL url = Thread.currentThread().getContextClassLoader().getResource(fileName);
-
-        if (url == null)
+        File file = new File(fileName);
+        if (!file.exists())
             throw new FileNotFoundException("File not found: " + fileName);
 
         Properties result = new Properties();
-        result.load(new FileInputStream(url.getPath()));
+        result.load(new FileInputStream(file));
         return result;
     }
 }
