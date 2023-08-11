@@ -25,7 +25,7 @@ public class InfrastructureAsCodeDemoApp
                     .build())
                 .build();
 
-        FrontEnd frontEnd = new FrontEnd(app, "FrontEndStack", props, conf.FRONTEND_DOMAIN_NAME);
+        FrontEnd frontEnd = new FrontEnd(app, "FrontEndStack", props, conf);
 
         WebContent webContent = new WebContent(app, "WebContentStack", props, frontEnd.webBucket);
         webContent.addDependency(frontEnd, "Needs the web bucket to place content inside.");
