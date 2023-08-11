@@ -44,16 +44,4 @@ public class Configuration
 
         return configuration;
     }
-
-    public void save(String path) throws IOException
-    {
-        File contentFile = new File(path);
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .create();
-        FileWriter fileWriter = new FileWriter(contentFile);
-        gson.toJson(this, fileWriter);
-        fileWriter.flush();
-        fileWriter.close();
-    }
 }
