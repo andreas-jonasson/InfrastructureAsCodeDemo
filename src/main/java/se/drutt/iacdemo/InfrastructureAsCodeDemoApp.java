@@ -5,37 +5,27 @@ import software.amazon.awscdk.Environment;
 import software.amazon.awscdk.StackProps;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Properties;
 
 public class InfrastructureAsCodeDemoApp
 {
-    public static final String PROD_CONFIG = "./src/main/resources/prod_config.txt";
+    public static final String PROD_CONFIG = "./src/main/resources/prod.json";
 
     public static void main(final String[] args)
     {
         App app = new App();
-        Properties config = null;
+        Configuration conf = loadConfig(PROD_CONFIG);
 
-        try
-        {
-            config = loadConfig(PROD_CONFIG);
-        }
-        catch (IOException e)
-        {
-            System.err.println("Failed to load config: " + e);
+        if (conf == null)
             System.exit(1);
-        }
 
         StackProps props = StackProps.builder().env(Environment.builder()
-                    .account(config.getProperty("account"))
-                    .region(config.getProperty("region"))
+                    .account(conf.ACCOUNT)
+                    .region(conf.REGION)
                     .build())
                 .build();
 
-        FrontEnd frontEnd = new FrontEnd(app, "FrontEndStack", props, config.getProperty("domainname"));
+        FrontEnd frontEnd = new FrontEnd(app, "FrontEndStack", props, conf.FRONTEND_DOMAIN_NAME);
 
         WebContent webContent = new WebContent(app, "WebContentStack", props, frontEnd.webBucket);
         webContent.addDependency(frontEnd, "Needs the web bucket to place content inside.");
@@ -43,14 +33,25 @@ public class InfrastructureAsCodeDemoApp
         app.synth();
     }
 
-    private static Properties loadConfig(String fileName) throws IOException
+    private static Configuration loadConfig(String fileName)
     {
         File file = new File(fileName);
+        Configuration result = null;
         if (!file.exists())
-            throw new FileNotFoundException("File not found: " + fileName);
+        {
+            System.err.println("Configuration file does not exists: " + fileName);
+            return null;
+        }
 
-        Properties result = new Properties();
-        result.load(new FileInputStream(file));
+        try
+        {
+            result = Configuration.getInstance(fileName);
+        }
+        catch (IOException e)
+        {
+            System.err.println("Failed to load configuration from: " + fileName);
+        }
+
         return result;
     }
 }

@@ -1,5 +1,0 @@
-account=813252771858
-region=eu-north-1
-subdomain=iac
-domain=drutt.se
-domainname=iac.drutt.se

@@ -1,0 +1,11 @@
+{
+  "DNS_DOMAIN":             "drutt.se",
+  "ACCOUNT":                "813252771858",
+  "REGION":                 "eu-north-1",
+  "DNS_SUBDOMAIN":          "iac",
+  "FRONTEND_DOMAIN_NAME":   "iac.drutt.se",
+  "API_DOMAIN_NAME":        "iac-domain.drutt.se",
+  "LOCAL_WEB_DIR":          "./web",
+  "HOSTED_ZONE_ID":         "Z02933011DI5JM1OEFJ35",
+  "HOSTED_ZONE_ARN":        "arn:aws:route53:::hostedzone/Z02933011DI5JM1OEFJ35"
+}
