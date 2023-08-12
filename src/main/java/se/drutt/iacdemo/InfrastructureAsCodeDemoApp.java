@@ -19,13 +19,24 @@ public class InfrastructureAsCodeDemoApp
         if (conf == null)
             System.exit(1);
 
-        StackProps props = StackProps.builder().env(Environment.builder()
+        StackProps props = StackProps.builder()
+                .crossRegionReferences(true)
+                .env(Environment.builder()
                     .account(conf.ACCOUNT)
                     .region(conf.REGION)
                     .build())
                 .build();
 
-        FrontEnd frontEnd = new FrontEnd(app, "FrontEndStack", props, conf);
+        StackProps virginia = StackProps.builder().env(Environment.builder() // Certs can only be created in Virginia
+                        .account(conf.ACCOUNT)
+                        .region("us-east-1")
+                        .build())
+                .build();
+
+        CertificateStack certificateStack = new CertificateStack(app, "CertificateStack", virginia, conf);
+
+        FrontEnd frontEnd = new FrontEnd(app, "FrontEndStack", props, conf, certificateStack.certificateArn);
+        frontEnd.addDependency(certificateStack, "Need certificate to create CloudFront");
 
         WebContent webContent = new WebContent(app, "WebContentStack", props, frontEnd.webBucket);
         webContent.addDependency(frontEnd, "Needs the web bucket to place content inside.");
