@@ -38,7 +38,7 @@ public class InfrastructureAsCodeDemoApp
         FrontEnd frontEnd = new FrontEnd(app, "FrontEndStack", props, conf, certificateStack.certificateArn);
         frontEnd.addDependency(certificateStack, "Need certificate to create CloudFront");
 
-        WebContent webContent = new WebContent(app, "WebContentStack", props, frontEnd.webBucket);
+        WebContent webContent = new WebContent(app, "WebContentStack", props, frontEnd.webBucket, frontEnd.distribution);
         webContent.addDependency(frontEnd, "Needs the web bucket to place content inside.");
 
         app.synth();

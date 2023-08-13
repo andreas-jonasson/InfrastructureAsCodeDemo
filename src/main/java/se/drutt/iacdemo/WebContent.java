@@ -2,6 +2,7 @@ package se.drutt.iacdemo;
 
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
+import software.amazon.awscdk.services.cloudfront.CloudFrontWebDistribution;
 import software.amazon.awscdk.services.s3.IBucket;
 import software.amazon.awscdk.services.s3.deployment.BucketDeployment;
 import software.amazon.awscdk.services.s3.deployment.ISource;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class WebContent extends Stack
 {
-    public WebContent(final Construct scope, final String id, final StackProps props, IBucket webBucket)
+    public WebContent(final Construct scope, final String id, final StackProps props, IBucket webBucket, CloudFrontWebDistribution distribution)
     {
         super(scope, id, props);
 
@@ -23,7 +24,7 @@ public class WebContent extends Stack
         BucketDeployment.Builder.create(this, "DeployWithInvalidation")
                 .sources(sources)
                 .destinationBucket(webBucket)
-                //.distribution(distribution)
+                .distribution(distribution)
                 .build();
     }
 }

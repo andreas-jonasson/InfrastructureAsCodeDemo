@@ -81,33 +81,6 @@ public class FrontEnd extends Stack {
                 .value(certificate.getCertificateArn())
                 .build();
 
-
-        // CloudFront distribution that provides HTTPS
-
-        /*
-            // CloudFront distribution
-    const distribution = new cloudfront.Distribution(this, 'SiteDistribution', {
-      certificate: certificate,
-      defaultRootObject: "index.html",
-      domainNames: [siteDomain],
-      minimumProtocolVersion: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021,
-      errorResponses:[
-        {
-          httpStatus: 403,
-          responseHttpStatus: 403,
-          responsePagePath: '/error.html',
-          ttl: Duration.minutes(30),
-        }
-      ],
-      defaultBehavior: {
-        origin: new cloudfront_origins.S3Origin(siteBucket, {originAccessIdentity: cloudfrontOAI}),
-        compress: true,
-        allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
-        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-      }
-    })
-
-         */
         SourceConfiguration sourceConfiguration = SourceConfiguration.builder()
                 .s3OriginSource(S3OriginConfig.builder()
                         .originAccessIdentity(originAccessIdentity)
