@@ -1,10 +1,8 @@
-# Welcome to your CDK Java project!
+# AWS CDK demo
 
-This is a blank project for CDK development with Java.
+![Front end components](/web/static-site-components.png)
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
-It is a [Maven](https://maven.apache.org/) based project, so you can open this project with any Maven compatible Java IDE to build and run tests.
+![Application - Stacks - Constructs](/web/app-stacks-constructs.png)
 
 ## Useful commands
 
