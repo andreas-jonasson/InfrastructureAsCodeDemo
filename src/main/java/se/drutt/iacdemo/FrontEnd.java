@@ -60,8 +60,6 @@ public class FrontEnd extends Stack {
                                 .zoneName(conf.DNS_DOMAIN)
                                 .build());
 
-        List<String> siteDomainList = List.of(conf.FRONTEND_DOMAIN_NAME);
-
         // Site URL CfnOutput variable
         CfnOutput.Builder.create(this, "SiteOutput")
                 .description("Site Domain Url")
@@ -73,7 +71,7 @@ public class FrontEnd extends Stack {
                 .value(webBucket.getBucketName())
                 .build();
 
-        // TLS certificate
+        // TLS certificate, get via arn. Created in the CertificateStack
         final ICertificate certificate = Certificate.fromCertificateArn(this, "WebCertificate", certificateArn);
 
         CfnOutput.Builder.create(this, "Certificate")
@@ -81,6 +79,7 @@ public class FrontEnd extends Stack {
                 .value(certificate.getCertificateArn())
                 .build();
 
+        // CDN - Cloud front
         SourceConfiguration sourceConfiguration = SourceConfiguration.builder()
                 .s3OriginSource(S3OriginConfig.builder()
                         .originAccessIdentity(originAccessIdentity)
@@ -96,7 +95,7 @@ public class FrontEnd extends Stack {
 
         distribution = CloudFrontWebDistribution.Builder.create(this, "SiteDistribution")
                 .viewerCertificate(ViewerCertificate.fromAcmCertificate(certificate, ViewerCertificateOptions.builder()
-                        .aliases(siteDomainList)
+                        .aliases(List.of(conf.FRONTEND_DOMAIN_NAME))
                         .sslMethod(SSLMethod.SNI)
                         .securityPolicy(SecurityPolicyProtocol.TLS_V1_2_2021)
                         .build()
