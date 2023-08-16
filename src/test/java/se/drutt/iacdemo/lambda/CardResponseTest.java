@@ -6,8 +6,7 @@ import se.drutt.iacdemo.Loader;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
-class CardRequestTest
+class CardResponseTest
 {
     private static final String QUESTION_PATH = "./src/test/resources/CardRequest-Question.json";
 

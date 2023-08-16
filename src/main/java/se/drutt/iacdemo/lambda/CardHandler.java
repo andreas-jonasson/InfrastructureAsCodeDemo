@@ -13,7 +13,7 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
     {
         CardResponse response;
         LambdaLogger logger = context.getLogger();
-        logger.log("Inside se.drutt.StartServerLambda.handleRequest(): class: " + event.getClass() + "    event:" + event);
+        logger.log("Inside se.drutt.CardHandler.handleRequest(): class: " + event.getClass() + "    event:" + event);
         logger.log("body:\n" + event.getBody());
 
         CardRequest request = CardRequest.getInstance(event.getBody());
