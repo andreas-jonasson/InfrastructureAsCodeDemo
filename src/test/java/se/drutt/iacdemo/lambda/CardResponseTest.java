@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CardResponseTest
 {
-    private static final String QUESTION_PATH = "./src/test/resources/CardRequest-Question.json";
+    private static final String QUESTION_PATH = "./src/test/resources/CardResponse-Question.json";
 
     @BeforeEach
     void setUp()
@@ -18,24 +18,30 @@ class CardResponseTest
     @Test
     void getInstance_returnsValidInstance()
     {
-        CardRequest request = CardRequest.getInstance(Loader.readFile(QUESTION_PATH));
-        assertInstanceOf(CardRequest.class, request);
+        CardResponse response = CardResponse.getInstance(Loader.readFile(QUESTION_PATH));
+        assertInstanceOf(CardResponse.class, response);
     }
 
     @Test
     void getInstance_containsAttributes()
     {
-        CardRequest request = CardRequest.getInstance(Loader.readFile(QUESTION_PATH));
-        assertNotNull(request.type);
-        assertNotNull(request.subject);
+        CardResponse response = CardResponse.getInstance(Loader.readFile(QUESTION_PATH));
+        assertNotNull(response.type);
+        assertNotNull(response.subject);
+        assertNotNull(response.question);
+        assertNotNull(response.options);
+        assertNotNull(response.correctOptions);
     }
 
     @Test
     void getInstance_attributeValuesCorrect()
     {
-        CardRequest request = CardRequest.getInstance(Loader.readFile(QUESTION_PATH));
-        assertEquals(request.type, "question");
-        assertEquals(request.subject, "cdk");
-        assertEquals(request.number, 1);
+        CardResponse response = CardResponse.getInstance(Loader.readFile(QUESTION_PATH));
+        assertEquals(response.type, "question");
+        assertEquals(response.subject, "cdk");
+        assertEquals(response.number, 1);
+        assertEquals(response.question, "What is 5 x 5?");
+        assertEquals(response.options[0], "5");
+        assertEquals(response.correctOptions[0], 1);
     }
 }

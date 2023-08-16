@@ -1,0 +1,8 @@
+{
+  "type": "question",
+  "subject": "cdk",
+  "number": 1,
+  "question": "What is 5 x 5?",
+  "options": ["5", "25", "55"],
+  "correctOptions": [1]
+}
