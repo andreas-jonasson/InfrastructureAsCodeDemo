@@ -41,6 +41,8 @@ public class InfrastructureAsCodeDemoApp
         WebContent webContent = new WebContent(app, "WebContentStack", props, frontEnd.webBucket, frontEnd.distribution);
         webContent.addDependency(frontEnd, "Needs the web bucket to place content inside.");
 
+        BackEnd backEnd = new BackEnd(app, "BackEndStack", props, conf);
+
         app.synth();
     }
 
