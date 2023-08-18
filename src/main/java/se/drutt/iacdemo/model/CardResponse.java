@@ -1,4 +1,4 @@
-package se.drutt.iacdemo.lambda;
+package se.drutt.iacdemo.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -6,18 +6,14 @@ import com.google.gson.GsonBuilder;
 public class CardResponse {
     public final String type;
     public final String subject;
-    public final String question;
     public final int number;
-    public final String[] options;
-    public final int[] correctOptions;
+    public final Card[] cards;
 
-    public CardResponse(String type, String subject, String question, int number, String[] options, int[] correctOptions) {
+    public CardResponse(String type, String subject, int number, Card[] cards) {
         this.type = type;
         this.subject = subject;
-        this.question = question;
         this.number = number;
-        this.options = options;
-        this.correctOptions = correctOptions;
+        this.cards = cards;
     }
 
     public static CardResponse getInstance(String json) {

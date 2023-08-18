@@ -3,6 +3,7 @@ package se.drutt.iacdemo.lambda;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.drutt.iacdemo.Loader;
+import se.drutt.iacdemo.model.CardRequest;
 
 import static org.junit.jupiter.api.Assertions.*;
 

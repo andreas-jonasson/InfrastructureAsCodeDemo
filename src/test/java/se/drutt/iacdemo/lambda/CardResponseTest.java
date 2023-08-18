@@ -3,6 +3,7 @@ package se.drutt.iacdemo.lambda;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.drutt.iacdemo.Loader;
+import se.drutt.iacdemo.model.CardResponse;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,9 +29,10 @@ class CardResponseTest
         CardResponse response = CardResponse.getInstance(Loader.readFile(QUESTION_PATH));
         assertNotNull(response.type);
         assertNotNull(response.subject);
-        assertNotNull(response.question);
-        assertNotNull(response.options);
-        assertNotNull(response.correctOptions);
+        assertNotNull(response.cards);
+        assertNotNull(response.cards[0].question);
+        assertNotNull(response.cards[0].options);
+        assertNotNull(response.cards[0].correctOptions);
     }
 
     @Test
@@ -40,8 +42,8 @@ class CardResponseTest
         assertEquals(response.type, "question");
         assertEquals(response.subject, "cdk");
         assertEquals(response.number, 1);
-        assertEquals(response.question, "What is 5 x 5?");
-        assertEquals(response.options[0], "5");
-        assertEquals(response.correctOptions[0], 1);
+        assertEquals(response.cards[0].question, "What is 5 x 5?");
+        assertEquals(response.cards[0].options[0], "5");
+        assertEquals(response.cards[0].correctOptions[0], 1);
     }
 }

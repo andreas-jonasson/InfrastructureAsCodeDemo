@@ -1,4 +1,4 @@
-package se.drutt.iacdemo.lambda;
+package se.drutt.iacdemo.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
