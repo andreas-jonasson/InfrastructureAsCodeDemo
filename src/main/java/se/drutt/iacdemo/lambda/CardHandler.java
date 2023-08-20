@@ -9,8 +9,13 @@ import se.drutt.iacdemo.Configuration;
 import se.drutt.iacdemo.model.Card;
 import se.drutt.iacdemo.model.CardRequest;
 import se.drutt.iacdemo.model.CardResponse;
+import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>
 {
@@ -50,13 +55,25 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
     }
     private DynamoDbClient getClient()
     {
-        Region region = Region.of(config.REGION);
         return DynamoDbClient.builder()
-                .region(region)
+                .credentialsProvider(ProfileCredentialsProvider.builder().profileName(config.AWS_CREDENTIALS_PROFILE).build())
+                .region(Region.of(config.REGION))
                 .build();
     }
+
     public void add(String topic, int number, Card card)
     {
-        DynamoDbClient dbClient = getClient();
+        DynamoDbClient ddb = getClient();
+
+        UpdateItemRequest request = UpdateItemRequest.builder()
+                .tableName(config.CARD_TABLE_NAME)
+                .key(Map.of(config.CARD_PARTITION_KEY, AttributeValue.builder().s(topic).build(),
+                        config.CARD_SORT_KEY, AttributeValue.builder().n(String.valueOf(number)).build()))
+                .attributeUpdates(Map.of(config.CARD_CARD_KEY, AttributeValueUpdate.builder()
+                                .value(AttributeValue.builder().s(card.toString()).build())
+                                .action(AttributeAction.PUT).build()))
+                .build();
+
+        ddb.updateItem(request);
     }
 }

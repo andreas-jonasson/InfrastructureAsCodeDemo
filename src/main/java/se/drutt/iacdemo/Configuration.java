@@ -7,6 +7,7 @@ import java.io.*;
 
 public class Configuration
 {
+    public final String AWS_CREDENTIALS_PROFILE;
     public final String DNS_DOMAIN;
     public final String ACCOUNT;
     public final String REGION;
@@ -19,8 +20,10 @@ public class Configuration
     public final String CARD_TABLE_NAME;
     public final String CARD_PARTITION_KEY;
     public final String CARD_SORT_KEY;
+    public final String CARD_CARD_KEY;
 
-    public Configuration(String dnsDomain, String account, String region, String dnsSubdomain, String frontendDomainName, String apiDomainName, String localWebDir, String hostedZoneId, String hostedZoneArn, String cardTableName, String cardPartitionKey, String cardSortKey) {
+    public Configuration(String awsCredentialsProfile, String dnsDomain, String account, String region, String dnsSubdomain, String frontendDomainName, String apiDomainName, String localWebDir, String hostedZoneId, String hostedZoneArn, String cardTableName, String cardPartitionKey, String cardSortKey, String cardCardKey) {
+        AWS_CREDENTIALS_PROFILE = awsCredentialsProfile;
         DNS_DOMAIN = dnsDomain;
         ACCOUNT = account;
         REGION = region;
@@ -33,6 +36,7 @@ public class Configuration
         CARD_TABLE_NAME = cardTableName;
         CARD_PARTITION_KEY = cardPartitionKey;
         CARD_SORT_KEY = cardSortKey;
+        CARD_CARD_KEY = cardCardKey;
     }
 
     public static Configuration getInstance(String configPath) throws FileNotFoundException {

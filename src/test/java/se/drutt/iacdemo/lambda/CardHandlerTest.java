@@ -24,7 +24,7 @@ class CardHandlerTest
     }
 
     @Test
-    void cardHandler_connect()
+    void cardHandler_add()
     {
         cardHandler.add(TEST_SUBJECT, TEST_NUMBER, testCard);
     }
