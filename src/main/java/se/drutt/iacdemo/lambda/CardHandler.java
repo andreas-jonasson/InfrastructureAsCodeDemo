@@ -9,17 +9,24 @@ import se.drutt.iacdemo.Configuration;
 import se.drutt.iacdemo.model.Card;
 import se.drutt.iacdemo.model.CardRequest;
 import se.drutt.iacdemo.model.CardResponse;
+import se.drutt.iacdemo.model.Cards;
 import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>
 {
     private Configuration config;
+    private DynamoDbClient ddb;
+
+    CardHandler(Configuration config)
+    {
+        this.config = config;
+        ddb = getClient();
+    }
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent event, Context context)
@@ -49,10 +56,6 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
         return null;
     }
 
-    public void setConfig(Configuration config)
-    {
-        this.config = config;
-    }
     private DynamoDbClient getClient()
     {
         return DynamoDbClient.builder()
@@ -61,10 +64,8 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
                 .build();
     }
 
-    public void add(String topic, int number, Card card)
+    public void addCard(String topic, int number, Card card)
     {
-        DynamoDbClient ddb = getClient();
-
         UpdateItemRequest request = UpdateItemRequest.builder()
                 .tableName(config.CARD_TABLE_NAME)
                 .key(Map.of(config.CARD_PARTITION_KEY, AttributeValue.builder().s(topic).build(),
@@ -75,5 +76,24 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
                 .build();
 
         ddb.updateItem(request);
+    }
+
+    public String getCard(String topic, int number)
+    {
+        GetItemRequest request = GetItemRequest.builder()
+                .tableName(config.CARD_TABLE_NAME)
+                .key(Map.of(config.CARD_PARTITION_KEY, AttributeValue.builder().s(topic).build(),
+                        config.CARD_SORT_KEY, AttributeValue.builder().n(String.valueOf(number)).build()))
+                .attributesToGet(config.CARD_CARD_KEY)
+                .build();
+
+        GetItemResponse response = ddb.getItem(request);
+        return response.item().get(config.CARD_CARD_KEY).s();
+    }
+
+    public void addCards(String topic, Cards cards)
+    {
+        for (int i = 1;  i <= cards.cards.size(); i++)
+            addCard(topic, i, cards.cards.get(i - 1));
     }
 }

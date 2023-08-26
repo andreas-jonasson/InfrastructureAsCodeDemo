@@ -3,30 +3,54 @@ package se.drutt.iacdemo.lambda;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.drutt.iacdemo.Configuration;
+import se.drutt.iacdemo.Loader;
 import se.drutt.iacdemo.model.Card;
+import se.drutt.iacdemo.model.Cards;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.IOException;
 
 class CardHandlerTest
 {
-    public static final String PROD_CONFIG = "./src/main/resources/prod.json";
-    private static final String TEST_SUBJECT = "TEST";
+    private static final String PROD_CONFIG     = "./src/main/resources/prod.json";
+    private static final String TEST_SUBJECT    = "TEST";
+    private static final String CARDS_PATH      = "./src/test/resources/TestCards.json";
     private static final int TEST_NUMBER = 1;
-    private final CardHandler cardHandler = new CardHandler();
     private final Configuration config = loadConfig(PROD_CONFIG);
+    private final CardHandler cardHandler = new CardHandler(config);
     private final Card testCard = new Card("What is 5 times 5?", new String[]{"5", "25", "55"}, new int[]{1});
+    private boolean tableDeployed;
 
     @BeforeEach
     void setUp()
     {
-        cardHandler.setConfig(config);
+        tableDeployed = true; // TODO Method to check if card-table is deployed.
     }
 
     @Test
-    void cardHandler_add()
+    void addCard_addAndRetrieveIsEqualObject()
     {
-        cardHandler.add(TEST_SUBJECT, TEST_NUMBER, testCard);
+        if (!tableDeployed)
+            return;
+
+        cardHandler.addCard(TEST_SUBJECT, TEST_NUMBER, testCard);
+        String json = cardHandler.getCard(TEST_SUBJECT, TEST_NUMBER);
+        assertNotNull(json);
+        Card result = Card.getInstance(json);
+        assertEquals(testCard, result);
+    }
+
+    @Test
+    void addCards_addAndRetrieveIsEqualObjects()
+    {
+        if (!tableDeployed)
+            return;
+
+        Cards originalCards = Cards.getInstance(Loader.readFile(CARDS_PATH));
+
+        cardHandler.addCards(TEST_SUBJECT, originalCards);
     }
 
     private static Configuration loadConfig(String fileName)
