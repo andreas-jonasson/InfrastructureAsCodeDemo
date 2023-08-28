@@ -21,9 +21,9 @@ import java.util.Map;
 
 public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>
 {
-    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private Configuration config;
-    private DynamoDbClient ddb;
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final Configuration config;
+    private final DynamoDbClient ddb;
 
     CardHandler(Configuration config)
     {

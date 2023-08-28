@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Cards
 {
-    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public ArrayList<Card> cards;
 
     public Cards()
