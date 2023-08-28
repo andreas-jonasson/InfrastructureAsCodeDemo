@@ -5,6 +5,8 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import se.drutt.iacdemo.Configuration;
 import se.drutt.iacdemo.model.Card;
 import se.drutt.iacdemo.model.CardRequest;
@@ -19,6 +21,7 @@ import java.util.Map;
 
 public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>
 {
+    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private Configuration config;
     private DynamoDbClient ddb;
 
@@ -99,14 +102,28 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
 
     public String getCards(String topic)
     {
-        GetItemRequest request = GetItemRequest.builder()
+        QueryRequest request = QueryRequest.builder()
                 .tableName(config.CARD_TABLE_NAME)
-                .key(Map.of(config.CARD_PARTITION_KEY, AttributeValue.builder().s(topic).build(),
-                            config.CARD_SORT_KEY, AttributeValue.builder().n("1").build()))  // TODO Bug reading all values
+                .keyConditionExpression("#pk = :" + config.CARD_PARTITION_KEY)
+                .expressionAttributeNames(Map.of("#pk", config.CARD_PARTITION_KEY))
+                .expressionAttributeValues(Map.of(":" + config.CARD_PARTITION_KEY, AttributeValue.builder().s(topic).build()))
                 .build();
 
-        GetItemResponse response = ddb.getItem(request);
+        QueryResponse response = ddb.query(request);
 
-        return response.item().get(config.CARD_CARD_KEY).s();
+        return queryResponse2CardsJson(response);
+    }
+
+    private String queryResponse2CardsJson(QueryResponse queryResponse)
+    {
+        Cards result = new Cards();
+
+        for (Map<String, AttributeValue> item : queryResponse.items())
+        {
+            Card card = Card.getInstance(item.get(config.CARD_CARD_KEY).s());
+            result.add(card);
+        }
+
+        return gson.toJson(result);
     }
 }

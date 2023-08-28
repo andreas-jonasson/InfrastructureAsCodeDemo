@@ -49,11 +49,11 @@ class CardHandlerTest
             return;
 
         Cards originalCards = Cards.getInstance(Loader.readFile(CARDS_PATH));
-
         cardHandler.addCards(TEST_SUBJECT, originalCards);
         String json = cardHandler.getCards(TEST_SUBJECT);
         assertNotNull(json);
-        System.out.println(json);
+        Cards resultCards = Cards.getInstance(json);
+        assertEquals(originalCards, resultCards);
     }
 
     private static Configuration loadConfig(String fileName)
