@@ -51,6 +51,9 @@ class CardHandlerTest
         Cards originalCards = Cards.getInstance(Loader.readFile(CARDS_PATH));
 
         cardHandler.addCards(TEST_SUBJECT, originalCards);
+        String json = cardHandler.getCards(TEST_SUBJECT);
+        assertNotNull(json);
+        System.out.println(json);
     }
 
     private static Configuration loadConfig(String fileName)

@@ -96,4 +96,17 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
         for (int i = 1;  i <= cards.cards.size(); i++)
             addCard(topic, i, cards.cards.get(i - 1));
     }
+
+    public String getCards(String topic)
+    {
+        GetItemRequest request = GetItemRequest.builder()
+                .tableName(config.CARD_TABLE_NAME)
+                .key(Map.of(config.CARD_PARTITION_KEY, AttributeValue.builder().s(topic).build(),
+                            config.CARD_SORT_KEY, AttributeValue.builder().n("1").build()))  // TODO Bug reading all values
+                .build();
+
+        GetItemResponse response = ddb.getItem(request);
+
+        return response.item().get(config.CARD_CARD_KEY).s();
+    }
 }
