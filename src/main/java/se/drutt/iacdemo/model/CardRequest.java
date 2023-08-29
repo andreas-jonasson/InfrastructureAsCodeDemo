@@ -16,6 +16,11 @@ public class CardRequest
         this.number = number;
     }
 
+    public boolean isGetRequest()
+    {
+        return type.equalsIgnoreCase("get");
+    }
+
     public static CardRequest getInstance(String json)
     {
         Gson gson = new GsonBuilder().create();

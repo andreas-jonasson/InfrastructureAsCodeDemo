@@ -51,7 +51,14 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
 
     CardResponse handleServerRequest(CardRequest request)
     {
-        return null;
+        CardResponse response;
+
+        if (request.isGetRequest())
+            response = null; // handleGetRequest(request);
+        else
+            response = new CardResponse("Request does not contain a valid command. Nothing done.");
+
+        return response;
     }
 
     APIGatewayProxyResponseEvent getAPIGatewayProxyResponseEvent(CardResponse response)
