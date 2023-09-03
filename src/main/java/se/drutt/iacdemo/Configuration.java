@@ -14,6 +14,7 @@ public class Configuration
     public final String DNS_SUBDOMAIN;
     public final String FRONTEND_DOMAIN_NAME;
     public final String API_DOMAIN_NAME;
+    public final String API_CARD_ENDPOINT;
     public final String LOCAL_WEB_DIR;
     public final String HOSTED_ZONE_ID;
     public final String HOSTED_ZONE_ARN;
@@ -22,7 +23,11 @@ public class Configuration
     public final String CARD_SORT_KEY;
     public final String CARD_CARD_KEY;
 
-    public Configuration(String awsCredentialsProfile, String dnsDomain, String account, String region, String dnsSubdomain, String frontendDomainName, String apiDomainName, String localWebDir, String hostedZoneId, String hostedZoneArn, String cardTableName, String cardPartitionKey, String cardSortKey, String cardCardKey) {
+    public Configuration(String awsCredentialsProfile, String dnsDomain, String account, String region,
+                         String dnsSubdomain, String frontendDomainName, String apiDomainName, String apiCardEndpoint,
+                         String localWebDir, String hostedZoneId, String hostedZoneArn, String cardTableName,
+                         String cardPartitionKey, String cardSortKey, String cardCardKey)
+    {
         AWS_CREDENTIALS_PROFILE = awsCredentialsProfile;
         DNS_DOMAIN = dnsDomain;
         ACCOUNT = account;
@@ -30,6 +35,7 @@ public class Configuration
         DNS_SUBDOMAIN = dnsSubdomain;
         FRONTEND_DOMAIN_NAME = frontendDomainName;
         API_DOMAIN_NAME = apiDomainName;
+        API_CARD_ENDPOINT = apiCardEndpoint;
         LOCAL_WEB_DIR = localWebDir;
         HOSTED_ZONE_ID = hostedZoneId;
         HOSTED_ZONE_ARN = hostedZoneArn;
