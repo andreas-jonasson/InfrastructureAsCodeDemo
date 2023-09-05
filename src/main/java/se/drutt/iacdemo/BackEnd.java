@@ -3,6 +3,7 @@ package se.drutt.iacdemo;
 import software.amazon.awscdk.*;
 import software.amazon.awscdk.services.apigateway.*;
 import software.amazon.awscdk.services.certificatemanager.Certificate;
+import software.amazon.awscdk.services.certificatemanager.CertificateValidation;
 import software.amazon.awscdk.services.certificatemanager.ICertificate;
 import software.amazon.awscdk.services.dynamodb.Attribute;
 import software.amazon.awscdk.services.dynamodb.AttributeType;
@@ -98,8 +99,10 @@ public class BackEnd extends Stack
                                 .zoneName(conf.DNS_DOMAIN)
                                 .build());
 
-        // TLS certificate, get via arn. Created in the CertificateStack
-        final ICertificate certificate = Certificate.fromCertificateArn(this, "WebCertificate", certificateArn);
+        final Certificate certificate = Certificate.Builder.create(this, "ApiCertificate")
+                .domainName(conf.API_DOMAIN_NAME)
+                .validation(CertificateValidation.fromDns(zone))
+                .build();
 
         final RestApi api =
                 RestApi.Builder.create(this, "ApiGateway")
