@@ -25,6 +25,10 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
     private final Configuration config;
     private final DynamoDbClient ddb;
 
+    public static void main(final String[] args)
+    {
+        System.out.println("CardHandler");
+    }
     CardHandler(Configuration config)
     {
         this.config = config;

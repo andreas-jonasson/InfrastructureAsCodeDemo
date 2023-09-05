@@ -71,10 +71,10 @@ public class BackEnd extends Stack
         ));
 
         // Lambda function for get
-        Function getReminder = new Function(this, "seven-days-server-lambda", FunctionProps.builder()
-                .code(Code.fromAsset("./target/seven_days_server-0.1.jar"))
-                .handler("se.drutt.lambda.ServerLambda::handleRequest")
-                .functionName("seven-days-server-lambda")
+        Function getReminder = new Function(this, "CardLambda", FunctionProps.builder()
+                .code(Code.fromAsset("./target/infrastructure_as_code_demo-0.1.jar"))
+                .handler("se.drutt.iacdemo.lambda.CardHandler::handleRequest")
+                .functionName("iac-demo-card-lambda")
                 .runtime(Runtime.JAVA_11)
                 .role(lambdaApiRole)
                 .timeout(Duration.seconds(300))
