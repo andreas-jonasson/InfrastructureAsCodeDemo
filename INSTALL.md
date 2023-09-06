@@ -1,4 +1,19 @@
-# Getting started
+# Getting started with this project
+* Create an AWS account
+* Create a role for deployment and generate keys
+* Install AWS CLI https://aws.amazon.com/cli/
+* Create .aws/config .aws/credentials
+* Install node: https://nodejs.org/en
+* Install AWS CDK `npm install -g aws-cdk`
+* Turn on developer mode on your Windows (to allow for symlinks) `start ms-settings:developers`
+* Boostrap AWS CDK `cdk bootstrap aws://ACCOUNT-NUMBER/REGION`
+* Install Maven https://maven.apache.org/download.cgi
+* `git clone https://github.com/andreas-jonasson/InfrastructureAsCodeDemo.git`
+* Build the lambda jar `mvn package`
+* Deploy `cdk deploy --all`
+
+
+# Getting started with a new project
 
 https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html
 
