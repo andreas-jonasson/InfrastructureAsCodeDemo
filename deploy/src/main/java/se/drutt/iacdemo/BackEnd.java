@@ -4,7 +4,6 @@ import software.amazon.awscdk.*;
 import software.amazon.awscdk.services.apigateway.*;
 import software.amazon.awscdk.services.certificatemanager.Certificate;
 import software.amazon.awscdk.services.certificatemanager.CertificateValidation;
-import software.amazon.awscdk.services.certificatemanager.ICertificate;
 import software.amazon.awscdk.services.dynamodb.Attribute;
 import software.amazon.awscdk.services.dynamodb.AttributeType;
 import software.amazon.awscdk.services.dynamodb.Table;
@@ -73,7 +72,7 @@ public class BackEnd extends Stack
 
         // Lambda function for get
         Function getReminder = new Function(this, "CardLambda", FunctionProps.builder()
-                .code(Code.fromAsset("./target/infrastructure_as_code_demo-0.1.jar"))
+                .code(Code.fromAsset("./lambda/target/lambda-0.1.jar"))
                 .handler("se.drutt.iacdemo.lambda.CardHandler::handleRequest")
                 .functionName("iac-demo-card-lambda")
                 .runtime(Runtime.JAVA_11)

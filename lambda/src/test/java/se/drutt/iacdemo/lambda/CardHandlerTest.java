@@ -14,7 +14,7 @@ import java.io.IOException;
 
 class CardHandlerTest
 {
-    private static final String PROD_CONFIG     = "./src/main/resources/prod.json";
+    private static final String PROD_CONFIG     = "../prod.json";
     private static final String TEST_SUBJECT    = "TEST";
     private static final String CARDS_PATH      = "./src/test/resources/TestCards.json";
     private static final int TEST_NUMBER = 1;

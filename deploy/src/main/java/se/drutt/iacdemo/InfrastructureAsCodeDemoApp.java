@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class InfrastructureAsCodeDemoApp
 {
-    public static final String PROD_CONFIG = "./src/main/resources/prod.json";
+    public static final String PROD_CONFIG = "./prod.json";
 
     public static void main(final String[] args)
     {
