@@ -20,6 +20,7 @@ import software.constructs.Construct;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class BackEnd extends Stack
 {
@@ -71,7 +72,7 @@ public class BackEnd extends Stack
         ));
 
         // Lambda function for get
-        Function getReminder = new Function(this, "CardLambda", FunctionProps.builder()
+        Function cardLambda = new Function(this, "CardLambda", FunctionProps.builder()
                 .code(Code.fromAsset("./lambda/target/lambda-0.1.jar"))
                 .handler("se.drutt.iacdemo.lambda.CardHandler::handleRequest")
                 .functionName("iac-demo-card-lambda")
@@ -79,11 +80,12 @@ public class BackEnd extends Stack
                 .role(lambdaApiRole)
                 .timeout(Duration.seconds(300))
                 .memorySize(1024)
+                .environment(Map.of("DRUTT", "Drutt"))
                 .build());
 
         CfnOutput.Builder.create(this, "seven-days-lambda-output")
                 .description("ARN ServerLambda")
-                .value(getReminder.getFunctionArn())
+                .value(cardLambda.getFunctionArn())
                 .build();
 
         //=======================================================================
@@ -119,7 +121,7 @@ public class BackEnd extends Stack
                                 .build())
                         .build();
 
-        Integration getReminderIntegration = new LambdaIntegration(getReminder);
+        Integration getReminderIntegration = new LambdaIntegration(cardLambda);
         software.amazon.awscdk.services.apigateway.Resource startS = api.getRoot().addResource(conf.API_CARD_ENDPOINT);
         startS.addMethod("POST", getReminderIntegration, MethodOptions.builder()
                 .apiKeyRequired(false)

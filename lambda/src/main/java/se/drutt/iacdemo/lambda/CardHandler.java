@@ -12,6 +12,7 @@ import se.drutt.iacdemo.model.Card;
 import se.drutt.iacdemo.model.CardRequest;
 import se.drutt.iacdemo.model.CardResponse;
 import se.drutt.iacdemo.model.Cards;
+import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
@@ -73,9 +74,16 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
     private DynamoDbClient getClient()
     {
         return DynamoDbClient.builder()
+                .credentialsProvider(ProfileCredentialsProvider.create())
+                .region(Region.of(config.REGION))
+                .build();
+        /*
+        return DynamoDbClient.builder()
                 .credentialsProvider(ProfileCredentialsProvider.builder().profileName(config.AWS_CREDENTIALS_PROFILE).build())
                 .region(Region.of(config.REGION))
                 .build();
+
+         */
     }
 
     public void addCard(String topic, int number, Card card)
