@@ -1,6 +1,7 @@
 package se.drutt.iacdemo;
 
 import software.amazon.awscdk.*;
+import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.services.apigateway.*;
 import software.amazon.awscdk.services.certificatemanager.Certificate;
 import software.amazon.awscdk.services.certificatemanager.CertificateValidation;
@@ -9,18 +10,13 @@ import software.amazon.awscdk.services.dynamodb.AttributeType;
 import software.amazon.awscdk.services.dynamodb.Table;
 import software.amazon.awscdk.services.dynamodb.TableProps;
 import software.amazon.awscdk.services.iam.*;
-import software.amazon.awscdk.services.lambda.Code;
-import software.amazon.awscdk.services.lambda.Function;
-import software.amazon.awscdk.services.lambda.FunctionProps;
+import software.amazon.awscdk.services.lambda.*;
 import software.amazon.awscdk.services.lambda.Runtime;
 import software.amazon.awscdk.services.route53.*;
 import software.amazon.awscdk.services.route53.targets.ApiGateway;
 import software.constructs.Construct;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BackEnd extends Stack
 {
@@ -72,6 +68,14 @@ public class BackEnd extends Stack
         ));
 
         // Lambda function for get
+        Map<String, String> lambdaEnvMap = new HashMap<>() {{
+            put("REGION", conf.REGION);
+            put("CARD_TABLE_NAME", conf.CARD_TABLE_NAME);
+            put("CARD_PARTITION_KEY", conf.CARD_PARTITION_KEY);
+            put("CARD_SORT_KEY", conf.CARD_SORT_KEY);
+            put("CARD_CARD_KEY", conf.CARD_CARD_KEY);
+        }};
+
         Function cardLambda = new Function(this, "CardLambda", FunctionProps.builder()
                 .code(Code.fromAsset("./lambda/target/lambda-0.1.jar"))
                 .handler("se.drutt.iacdemo.lambda.CardHandler::handleRequest")
@@ -80,7 +84,7 @@ public class BackEnd extends Stack
                 .role(lambdaApiRole)
                 .timeout(Duration.seconds(300))
                 .memorySize(1024)
-                .environment(Map.of("DRUTT", "Drutt"))
+                .environment(lambdaEnvMap)
                 .build());
 
         CfnOutput.Builder.create(this, "seven-days-lambda-output")

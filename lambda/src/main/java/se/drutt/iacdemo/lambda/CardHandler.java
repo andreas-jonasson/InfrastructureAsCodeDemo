@@ -12,7 +12,6 @@ import se.drutt.iacdemo.model.Card;
 import se.drutt.iacdemo.model.CardRequest;
 import se.drutt.iacdemo.model.CardResponse;
 import se.drutt.iacdemo.model.Cards;
-import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
@@ -30,9 +29,15 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
     {
         System.out.println("CardHandler");
     }
-    CardHandler(Configuration config)
+    public CardHandler(Configuration config)
     {
         this.config = config;
+        ddb = getClient();
+    }
+
+    public CardHandler()
+    {
+        config = getConfigurationFromEnv();
         ddb = getClient();
     }
 
@@ -58,7 +63,7 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
     {
         CardResponse response;
 
-        if (request.isGetRequest())
+        if (request.isGetRequest()) // TODO Nullpointer exception here.
             response = null; // handleGetRequest(request);
         else
             response = new CardResponse("Request does not contain a valid command. Nothing done.");
@@ -77,13 +82,6 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
                 .credentialsProvider(ProfileCredentialsProvider.create())
                 .region(Region.of(config.REGION))
                 .build();
-        /*
-        return DynamoDbClient.builder()
-                .credentialsProvider(ProfileCredentialsProvider.builder().profileName(config.AWS_CREDENTIALS_PROFILE).build())
-                .region(Region.of(config.REGION))
-                .build();
-
-         */
     }
 
     public void addCard(String topic, int number, Card card)
@@ -144,5 +142,17 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
         }
 
         return gson.toJson(result);
+    }
+
+    private Configuration getConfigurationFromEnv()
+    {
+        return new Configuration(null, null, null,
+                System.getenv("REGION"),
+                null,null, null, null, null,
+                null,null,
+                System.getenv("CARD_TABLE_NAME"),
+                System.getenv("CARD_PARTITION_KEY"),
+                System.getenv("CARD_SORT_KEY"),
+                System.getenv("CARD_CARD_KEY"));
     }
 }
