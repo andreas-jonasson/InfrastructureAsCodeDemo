@@ -55,15 +55,15 @@ public class BackEnd extends Stack
         //=======================================================================
         lambdaApiRole.addToPolicy(new PolicyStatement(PolicyStatementProps.builder()
                 .effect(Effect.ALLOW)
-                .actions(Arrays.asList("logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"))
+                .actions(List.of("logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"))
                 .resources(List.of("*"))
                 .build()
         ));
 
         lambdaApiRole.addToPolicy(new PolicyStatement(PolicyStatementProps.builder()
                 .effect(Effect.ALLOW)
-                .actions(Arrays.asList("route53:ChangeResourceRecordSets", "route53:ListResourceRecordSets"))
-                .resources(List.of(conf.HOSTED_ZONE_ARN))
+                .actions(List.of("dynamodb:GetItem"))
+                .resources(List.of(table.getTableArn()))
                 .build()
         ));
 

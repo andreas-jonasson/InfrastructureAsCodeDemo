@@ -31,14 +31,19 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
     }
     public CardHandler(Configuration config)
     {
+        // Use for testing locally
         this.config = config;
-        ddb = getClient();
+        ddb = DynamoDbClient.builder()
+                .credentialsProvider(ProfileCredentialsProvider.builder().profileName(config.AWS_CREDENTIALS_PROFILE).build())
+                .region(Region.of(config.REGION))
+                .build();
     }
 
     public CardHandler()
     {
+        // Use when running in the cloud
         config = getConfigurationFromEnv();
-        ddb = getClient();
+        ddb = DynamoDbClient.builder().build();
     }
 
     @Override
@@ -63,25 +68,37 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
     {
         CardResponse response;
 
-        if (request.isGetRequest()) // TODO Nullpointer exception here.
-            response = null; // handleGetRequest(request);
+        if (request.isGetRequest())
+            response = handleGetRequest(request);
         else
             response = new CardResponse("Request does not contain a valid command. Nothing done.");
 
         return response;
     }
 
-    APIGatewayProxyResponseEvent getAPIGatewayProxyResponseEvent(CardResponse response)
+    CardResponse handleGetRequest(CardRequest request)
     {
-        return null;
+        if (request.subject == null)
+            return new CardResponse("Get CardRequest does not contain any subject. Nothing done.");
+        if (request.number < 1)
+            return new CardResponse("Get CardRequest does not contain a number less than 1. Nothing done.");
+
+        // TODO Something prevents the Card from having the correct state...
+        CardResponse cardResponse = CardResponse.getInstance(getCard(request.subject, request.number));
+        System.out.println("CardResponse: " + cardResponse);
+        return cardResponse;
     }
 
-    private DynamoDbClient getClient()
+    APIGatewayProxyResponseEvent getAPIGatewayProxyResponseEvent(CardResponse response)
     {
-        return DynamoDbClient.builder()
-                .credentialsProvider(ProfileCredentialsProvider.create())
-                .region(Region.of(config.REGION))
-                .build();
+        APIGatewayProxyResponseEvent gatewayProxyResponseEvent = new APIGatewayProxyResponseEvent();
+        gatewayProxyResponseEvent.withBody(response.toString());
+        gatewayProxyResponseEvent.setStatusCode(200);
+        Map<String, String> headers = new java.util.HashMap<>();
+        headers.put("Content-Type", "application/json");
+        gatewayProxyResponseEvent.setHeaders(headers);
+
+        return gatewayProxyResponseEvent;
     }
 
     public void addCard(String topic, int number, Card card)
