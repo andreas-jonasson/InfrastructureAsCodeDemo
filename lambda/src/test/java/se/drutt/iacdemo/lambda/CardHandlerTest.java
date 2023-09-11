@@ -1,5 +1,9 @@
 package se.drutt.iacdemo.lambda;
 
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.drutt.iacdemo.Configuration;
@@ -14,9 +18,11 @@ import java.io.IOException;
 
 class CardHandlerTest
 {
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final String PROD_CONFIG     = "../prod.json";
     private static final String TEST_SUBJECT    = "TEST";
     private static final String CARDS_PATH      = "./src/test/resources/TestCards.json";
+    private static final String GATEWAY_REQUEST = "./src/test/resources/APIGateway-CardRequest.json";
     private static final int TEST_NUMBER = 1;
     private final Configuration config = loadConfig(PROD_CONFIG);
     private final CardHandler cardHandler = new CardHandler(config);
@@ -54,6 +60,18 @@ class CardHandlerTest
         assertNotNull(json);
         Cards resultCards = Cards.getInstance(json);
         assertEquals(originalCards, resultCards);
+    }
+
+    @Test
+    void handleReques_getCard()
+    {
+        if (!tableDeployed)
+            return;
+
+        APIGatewayProxyRequestEvent requestEvent = gson.fromJson(Loader.readFile(GATEWAY_REQUEST), APIGatewayProxyRequestEvent.class);
+        APIGatewayProxyResponseEvent responseEvent = cardHandler.handleRequest(requestEvent, null);
+        System.out.println(responseEvent.getBody());
+
     }
 
     private static Configuration loadConfig(String fileName)

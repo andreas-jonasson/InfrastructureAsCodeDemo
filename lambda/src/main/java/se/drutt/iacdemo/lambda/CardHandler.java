@@ -18,6 +18,7 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.*;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>
 {
@@ -50,16 +51,16 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent event, Context context)
     {
         CardResponse response;
-        LambdaLogger logger = context.getLogger();
-        logger.log("Inside se.drutt.CardHandler.handleRequest(): class: " + event.getClass() + "    event:" + event);
-        logger.log("body:\n" + event.getBody());
+        //LambdaLogger logger = context.getLogger();
+        //logger.log("Inside se.drutt.CardHandler.handleRequest(): class: " + event.getClass() + "    event:" + event);
+        //logger.log("body:\n" + event.getBody());
 
         CardRequest request = CardRequest.getInstance(event.getBody());
 
         response = handleServerRequest(request);
 
         APIGatewayProxyResponseEvent gatewayResponse = getAPIGatewayProxyResponseEvent(response);
-        logger.log("Output is: " + gatewayResponse );
+        //logger.log("Output is: " + gatewayResponse );
 
         return gatewayResponse;
     }
