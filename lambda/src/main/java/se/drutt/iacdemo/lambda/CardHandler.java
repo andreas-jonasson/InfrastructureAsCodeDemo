@@ -51,16 +51,16 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent event, Context context)
     {
         CardResponse response;
-        //LambdaLogger logger = context.getLogger();
-        //logger.log("Inside se.drutt.CardHandler.handleRequest(): class: " + event.getClass() + "    event:" + event);
-        //logger.log("body:\n" + event.getBody());
+        LambdaLogger logger = context.getLogger();
+        logger.log("Inside se.drutt.CardHandler.handleRequest(): class: " + event.getClass() + "    event:" + event);
+        logger.log("Request body:\t" + event.getBody());
 
         CardRequest request = CardRequest.getInstance(event.getBody());
 
         response = handleServerRequest(request);
 
         APIGatewayProxyResponseEvent gatewayResponse = getAPIGatewayProxyResponseEvent(response);
-        //logger.log("Output is: " + gatewayResponse );
+        logger.log("Response body: " + gatewayResponse );
 
         return gatewayResponse;
     }
@@ -84,10 +84,8 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
         if (request.number < 1)
             return new CardResponse("Get CardRequest does not contain a number less than 1. Nothing done.");
 
-        // TODO Something prevents the Card from having the correct state...
-        CardResponse cardResponse = CardResponse.getInstance(getCard(request.subject, request.number));
-        System.out.println("CardResponse: " + cardResponse);
-        return cardResponse;
+        Card card = Card.getInstance(getCard(request.subject, request.number));
+        return new CardResponse("get", request.subject, request.number, card, "Success");
     }
 
     APIGatewayProxyResponseEvent getAPIGatewayProxyResponseEvent(CardResponse response)

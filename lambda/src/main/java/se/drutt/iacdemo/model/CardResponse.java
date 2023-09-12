@@ -20,6 +20,16 @@ public class CardResponse
         this.message = message;
     }
 
+    public CardResponse(String type, String subject, int number, Card card, String message)
+    {
+        this.type = type;
+        this.subject = subject;
+        this.number = number;
+        this.cards = new Card[1];
+        this.cards[0] = card;
+        this.message = message;
+    }
+
     public CardResponse(String message)
     {
         this.type = null;

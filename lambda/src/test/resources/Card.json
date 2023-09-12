@@ -1,0 +1,11 @@
+{
+  "question": "What is 5 times 5?",
+  "options": [
+    "5",
+    "25",
+    "55"
+  ],
+  "correctOptions": [
+    1
+  ]
+}
