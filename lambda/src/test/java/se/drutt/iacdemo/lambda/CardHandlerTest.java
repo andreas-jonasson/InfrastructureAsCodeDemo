@@ -1,9 +1,5 @@
 package se.drutt.iacdemo.lambda;
 
-import com.amazonaws.services.lambda.runtime.ClientContext;
-import com.amazonaws.services.lambda.runtime.CognitoIdentity;
-import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
@@ -12,15 +8,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.drutt.iacdemo.Configuration;
 import se.drutt.iacdemo.Loader;
-import se.drutt.iacdemo.model.Card;
-import se.drutt.iacdemo.model.CardResponse;
-import se.drutt.iacdemo.model.Cards;
-import se.drutt.iacdemo.model.LocalContext;
-
-import static org.junit.jupiter.api.Assertions.*;
+import se.drutt.iacdemo.model.*;
 
 import java.io.File;
 import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class CardHandlerTest
 {
@@ -78,6 +72,22 @@ class CardHandlerTest
         APIGatewayProxyResponseEvent responseEvent = cardHandler.handleRequest(requestEvent, new LocalContext());
         CardResponse cardResponse = CardResponse.getInstance(responseEvent.getBody());
         assertEquals(cardResponse.message, "Success");
+    }
+
+    @Test
+    void handleRequest_getAllCards()
+    {
+        if (!tableDeployed)
+            return;
+
+        APIGatewayProxyRequestEvent requestEvent = gson.fromJson(Loader.readFile(GATEWAY_REQUEST), APIGatewayProxyRequestEvent.class);
+        CardRequest cardRequest = new CardRequest(CardRequest.requestTypes.GETALL, TEST_SUBJECT, 0);
+        requestEvent.setBody(cardRequest.toJson());
+        APIGatewayProxyResponseEvent responseEvent = cardHandler.handleRequest(requestEvent, new LocalContext());
+        CardResponse cardResponse = CardResponse.getInstance(responseEvent.getBody());
+        assertEquals(cardResponse.message, "Success");
+        assertNotNull(cardResponse.cards);
+        assertEquals(cardResponse.cards.length, 3);
     }
 
     private static Configuration loadConfig(String fileName)

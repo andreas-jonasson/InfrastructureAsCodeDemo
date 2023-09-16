@@ -29,6 +29,12 @@ public class Cards
         return gson.fromJson(json, Cards.class);
     }
 
+    public Card[] getCardArray()
+    {
+        Card[] cardArr = new Card[cards.size()];
+        return cards.toArray(cardArr);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

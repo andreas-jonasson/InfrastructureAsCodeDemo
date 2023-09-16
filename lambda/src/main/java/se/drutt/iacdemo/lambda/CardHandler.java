@@ -18,7 +18,6 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.*;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>
 {
@@ -71,6 +70,8 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
 
         if (request.isGetRequest())
             response = handleGetRequest(request);
+        else if (request.isGetAllRequest())
+            response = handleGetAllRequest(request);
         else
             response = new CardResponse("Request does not contain a valid command. Nothing done.");
 
@@ -85,7 +86,16 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
             return new CardResponse("Get CardRequest does not contain a number less than 1. Nothing done.");
 
         Card card = Card.getInstance(getCard(request.subject, request.number));
-        return new CardResponse("get", request.subject, request.number, card, "Success");
+        return new CardResponse(String.valueOf(CardRequest.requestTypes.GET), request.subject, request.number, card, "Success");
+    }
+
+    CardResponse handleGetAllRequest(CardRequest request)
+    {
+        if (request.subject == null)
+            return new CardResponse("GetAll CardRequest does not contain any subject. Nothing done.");
+
+        Cards cards = Cards.getInstance(getCards(request.subject));
+        return new CardResponse(String.valueOf(CardRequest.requestTypes.GETALL), request.subject, request.number, cards, "Success");
     }
 
     APIGatewayProxyResponseEvent getAPIGatewayProxyResponseEvent(CardResponse response)

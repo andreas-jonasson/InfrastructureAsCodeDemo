@@ -5,18 +5,18 @@ import com.google.gson.GsonBuilder;
 
 public class CardResponse
 {
-    private static final Gson gson = new GsonBuilder().create();
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public final String type;
     public final String subject;
     public final int number;
     public final Card[] cards;
     public final String message;
 
-    public CardResponse(String type, String subject, int number, Card[] cards, String message) {
+    public CardResponse(String type, String subject, int number, Cards cards, String message) {
         this.type = type;
         this.subject = subject;
         this.number = number;
-        this.cards = cards;
+        this.cards = cards.getCardArray();
         this.message = message;
     }
 
