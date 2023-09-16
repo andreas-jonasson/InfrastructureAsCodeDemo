@@ -1,6 +1,8 @@
 # AWS CDK demo
 
-![Front end components](/web/static-site-components.png)
+![Frontend components](/web/static-site-components.png)
+
+![Backend components](/web/backend-components.png)
 
 ![Application - Stacks - Constructs](/web/app-stacks-constructs.png)
 

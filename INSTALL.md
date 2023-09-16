@@ -1,4 +1,5 @@
 # Getting started with this project
+## You need a hosted zone (domain) to deploy this.
 * Create an AWS account
 * Create a role for deployment and generate keys
 * Install AWS CLI https://aws.amazon.com/cli/
@@ -10,10 +11,11 @@
 * Install Maven https://maven.apache.org/download.cgi
 * `git clone https://github.com/andreas-jonasson/InfrastructureAsCodeDemo.git`
 * Build the lambda jar `mvn package`
+* Edit prod.json to reflect your setup
 * Deploy `cdk deploy --all`
 
 
-# Getting started with a new project
+# Getting started with a new project in general
 
 https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html
 
