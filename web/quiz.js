@@ -1,11 +1,18 @@
 const app = Vue.createApp({
-    // https://youtu.be/F7PLPJqVotk?list=PL4cUxeGkcC9hYYGbV60Vq3IXYNfDk8At1&t=817
-    data()
-     {
+    data() {
         return {
-            question: "Oh hai!",
-            option: "Yes?"
+            pickAnswers: true,
+            question: "Question text",
+            option: [ "Option one", "Option two", "Option three", "Option four" ]
          }
+    },
+    methods: {
+    checkAnswers() {
+            this.pickAnswers = false
+        },
+    nextQuestion() {
+            this.pickAnswers = true
+        }
     }
 })
 

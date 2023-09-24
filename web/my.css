@@ -30,6 +30,21 @@ h3
   grid-gap: 0.5em;
 }
 
+.card
+{
+      background-color: #ececea;
+      color:            #101010;
+      border-radius:    4px;
+      box-shadow:       0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+      padding:          1em 2em 1em 2em;
+}
+
+.optionButton
+{
+    margin-left:    0.5em;
+    align:  right;
+}
+
 main
 {
     margin-bottom: 10px;

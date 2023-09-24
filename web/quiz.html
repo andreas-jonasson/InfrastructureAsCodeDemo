@@ -7,12 +7,24 @@
     <script src="https://unpkg.com/vue@3.0.2"></script>
 </head>
 <body>
-<h1>Quiz</h1>
+    <h1>Quiz</h1>
 
-    <div id="quiz">
-        <p>  {{ question }} </p>
-    </div>
+        <main>
+            <section id="quiz" class="card">
+                <p>{{ question }}</p>
+                <p>
+                    <ol>
+                        <li>{{ option[0] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
+                        <li>{{ option[1] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
+                        <li>{{ option[2] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
+                        <li>{{ option[3] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
+                    </ol>
+                </p>
+                <button @click="checkAnswers">Check</button>
+                <button @click="nextQuestion">Next</button>
+            </section>
+        </main>
 
-<script src="quiz.js"></script>
+    <script src="quiz.js"></script>
 </body>
 </html>
