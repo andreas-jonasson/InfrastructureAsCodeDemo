@@ -13,6 +13,13 @@ const app = Vue.createApp({
     nextQuestion() {
             this.pickAnswers = true
         }
+    },
+
+    mounted() {
+        fetch('endpoint')
+            .then(res => res.json())
+            .then(data => this.questions = data)
+            .catch(err => console.log(err.message))
     }
 })
 
