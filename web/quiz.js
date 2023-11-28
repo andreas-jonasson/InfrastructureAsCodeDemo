@@ -16,9 +16,16 @@ const app = Vue.createApp({
     },
 
     mounted() {
-        fetch('endpoint')
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json',
+                        'CORS' : 'eeeh' },
+            body: JSON.stringify({ name: 'Vue 3 POST Request Example' })
+        };
+
+        fetch('https://iac-api.drutt.se/card')
             .then(res => res.json())
-            .then(data => this.questions = data)
+            .then(data => console.log(data))
             .catch(err => console.log(err.message))
     }
 })
