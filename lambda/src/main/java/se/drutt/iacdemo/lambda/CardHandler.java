@@ -105,6 +105,7 @@ public class CardHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
         gatewayProxyResponseEvent.setStatusCode(200);
         Map<String, String> headers = new java.util.HashMap<>();
         headers.put("Content-Type", "application/json");
+        headers.put("Access-Control-Allow-Origin", "*"); // Allows invocation from localhost when testing. Not pretty.
         gatewayProxyResponseEvent.setHeaders(headers);
 
         return gatewayProxyResponseEvent;

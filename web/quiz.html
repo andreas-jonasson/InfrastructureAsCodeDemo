@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Quiz</title>
     <link rel="stylesheet" href="my.css">
-    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <script src="https://unpkg.com/vue"></script>
 </head>
 <body>
     <h1>Quiz</h1>
@@ -14,10 +14,10 @@
                 <p>{{ question }}</p>
 
                     <ol>
-                        <li>{{ option[0] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
-                        <li>{{ option[1] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
-                        <li>{{ option[2] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
-                        <li>{{ option[3] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
+                        <li>{{ options[0] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
+                        <li>{{ options[1] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
+                        <li>{{ options[2] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
+                        <li>{{ options[3] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
                     </ol>
 
                 <button @click="checkAnswers">Check</button>

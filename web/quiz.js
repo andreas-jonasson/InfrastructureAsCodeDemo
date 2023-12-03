@@ -1,31 +1,43 @@
 const app = Vue.createApp({
+
     data() {
         return {
-            pickAnswers: true,
-            question: "Question text",
-            option: [ "Option one", "Option two", "Option three", "Option four" ]
+            cards: [],
+            currentCard: 0,
+            question: "Question",
+            options: [ "Option one", "Option two", "Option three", "Option four" ]
          }
     },
-    methods: {
-    checkAnswers() {
-            this.pickAnswers = false
-        },
-    nextQuestion() {
-            this.pickAnswers = true
+
+    watch: {
+        cards(val) {
+            this.question = val[this.currentCard].question
+            this.options = val[this.currentCard].options
         }
     },
 
+    computed: {
+    },
+
+    methods: {
+    },
+
     mounted() {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json',
-                        'CORS' : 'eeeh' },
-            body: JSON.stringify({ name: 'Vue 3 POST Request Example' })
+        const request = {
+            type: "GETALL",
+            subject: "TEST",
+            number: 0
         };
 
-        fetch('https://iac-api.drutt.se/card')
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(request)
+        };
+
+        fetch('https://iac-api.drutt.se/card', requestOptions)
             .then(res => res.json())
-            .then(data => console.log(data))
+            .then(data => this.cards = data.cards)
             .catch(err => console.log(err.message))
     }
 })

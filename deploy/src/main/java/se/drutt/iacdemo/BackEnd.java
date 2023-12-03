@@ -20,7 +20,7 @@ import java.util.*;
 
 public class BackEnd extends Stack
 {
-    public BackEnd(final Construct scope, final String id, final StackProps props, Configuration conf, String certificateArn)
+    public BackEnd(final Construct scope, final String id, final StackProps props, Configuration conf)
     {
         super(scope, id, props);
 
@@ -62,7 +62,7 @@ public class BackEnd extends Stack
 
         lambdaApiRole.addToPolicy(new PolicyStatement(PolicyStatementProps.builder()
                 .effect(Effect.ALLOW)
-                .actions(List.of("dynamodb:GetItem"))
+                .actions(List.of("dynamodb:GetItem", "dynamodb:Query"))
                 .resources(List.of(table.getTableArn()))
                 .build()
         ));
