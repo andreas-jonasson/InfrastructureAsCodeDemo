@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Quiz</title>
     <link rel="stylesheet" href="my.css">
     <script src="https://unpkg.com/vue"></script>
+    <script src="https://kit.fontawesome.com/12f51e0230.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <h1>Quiz</h1>
@@ -12,15 +13,20 @@
         <main>
             <section id="quiz" class="card">
                 <p>{{ question }}</p>
-
                     <ol>
-                        <li>{{ options[0] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
-                        <li>{{ options[1] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
-                        <li>{{ options[2] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
-                        <li>{{ options[3] }}<button class="optionButton" v-if="pickAnswers">X</button><span v-else>T</span></li>
+                        <li v-if="options[0]">{{ options[0] }}
+                            <i v-on:click="selected[0] = true" class="fa-regular fa-circle-question" v-if="quizMode && !selected[0]"></i>
+                            <i v-on:click="selected[0] = false" class="fa-solid fa-check" v-if="quizMode && selected[0]"></i>
+                            <i class="fa-solid fa-circle-check" v-if="!quizMode && isCorrect(0)"></i>
+                            <i class="fa-solid fa-rectangle-xmark" v-if="!quizMode && !isCorrect(0)"></i>
+                        </li>
+                        <li v-if="options[1]">{{ options[1] }}<button class="optionButton" v-if="quizMode">X</button><span v-else>T</span></li>
+                        <li v-if="options[2]">{{ options[2] }}<button class="optionButton" v-if="quizMode">X</button><span v-else>T</span></li>
+                        <li v-if="options[3]">{{ options[3] }}<button class="optionButton" v-if="quizMode">X</button><span v-else>T</span></li>
                     </ol>
-
-                <button @click="checkAnswers">Check</button>
+                <button @click="previousQuestion">Previous</button>
+                <button @click="showQuestion">Quiz</button>
+                <button @click="showAnswer">Check</button>
                 <button @click="nextQuestion">Next</button>
             </section>
         </main>
