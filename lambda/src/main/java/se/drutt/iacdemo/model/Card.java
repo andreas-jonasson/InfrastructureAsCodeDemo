@@ -11,9 +11,9 @@ public class Card
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public final String question;
     public final String[] options;
-    public final int[] correctOptions;
+    public final boolean[] correctOptions;
 
-    public Card(String question, String[] options, int[] correctOptions)
+    public Card(String question, String[] options, boolean[] correctOptions)
     {
         this.question = question;
         this.options = options;

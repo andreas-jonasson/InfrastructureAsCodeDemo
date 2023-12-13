@@ -26,7 +26,7 @@ class CardHandlerTest
     private static final int TEST_NUMBER = 1;
     private final Configuration config = loadConfig(PROD_CONFIG);
     private final CardHandler cardHandler = new CardHandler(config);
-    private final Card testCard = new Card("What is 5 times 5?", new String[]{"5", "25", "55"}, new int[]{1});
+    private final Card testCard = new Card("What is 5 times 5?", new String[]{"5", "25", "55"}, new boolean[]{false, true, false});
     private boolean tableDeployed;
 
     @BeforeEach

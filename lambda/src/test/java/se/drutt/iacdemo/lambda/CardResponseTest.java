@@ -44,6 +44,8 @@ class CardResponseTest
         assertEquals(response.number, 1);
         assertEquals(response.cards[0].question, "What is 5 x 5?");
         assertEquals(response.cards[0].options[0], "5");
-        assertEquals(response.cards[0].correctOptions[0], 1);
+        assertEquals(response.cards[0].correctOptions[0], false);
+        assertEquals(response.cards[0].correctOptions[1], true);
+        assertEquals(response.cards[0].correctOptions[2], false);
     }
 }

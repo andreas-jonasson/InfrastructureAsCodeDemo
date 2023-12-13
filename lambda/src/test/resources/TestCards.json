@@ -8,7 +8,7 @@
         "25",
         "55"
       ],
-      "correctOptions": [ 1 ]
+      "correctOptions": [ false, true, false ]
     },
     {
       "question": "Why is the sky blue? What physical phenomenon makes the sky blue?",
@@ -17,7 +17,7 @@
         "The ability of ozone to absorb the UV solar radiation with a wavelength of 220 to 300 nm.",
         "The spectral albedo of the oceans and from plants are both less for shorter wavelengths."
       ],
-      "correctOptions": [ 0 ]
+      "correctOptions": [ true, false, false ]
     },
     {
       "question": "Chlorosis is a condition in which leaves produce insufficient chlorophyll. What are common causes chlorosis in plants?",
@@ -28,7 +28,7 @@
         "Poor drainage, waterlogged roots.",
         "Damaged and/or compacted roots"
       ],
-      "correctOptions": [ 0, 1, 2, 3, 4 ]
+      "correctOptions": [ true, true, true, true, true ]
     }
   ]
 }

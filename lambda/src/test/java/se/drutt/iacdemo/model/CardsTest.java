@@ -36,6 +36,6 @@ class CardsTest
         Cards cards = Cards.getInstance(Loader.readFile(CARDS_PATH));
         Card first = cards.cards.get(0);
         assertEquals(first.question, "What is 5 times 5?");
-        assertEquals(first.correctOptions[0], 1);
+        assertEquals(first.correctOptions[1], true);
     }
 }
