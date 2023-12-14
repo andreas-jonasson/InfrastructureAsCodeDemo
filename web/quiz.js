@@ -35,6 +35,7 @@ const app = Vue.createApp({
                 this.currentCard = this.cards.length - 1
 
             this.selected = []
+            this.quizMode = true
         },
         nextQuestion() {
             this.currentCard++
@@ -42,6 +43,7 @@ const app = Vue.createApp({
                 this.currentCard = 0
 
             this.selected = []
+            this.quizMode = true
         },
         showQuestion() {
             this.quizMode = true
@@ -54,6 +56,19 @@ const app = Vue.createApp({
                 this.selected[i] = false
             else
                 return this.selected[i] == this.answers[i]
+        },
+        allCorrect()
+        {
+            for (let i = 0; i < 5; i++)
+            {
+                if (typeof this.selected[i] === 'undefined')
+                    this.selected[i] = false
+                if (typeof this.answers[i] === 'undefined')
+                    return true
+                if (this.selected[i] != this.answers[i])
+                    return false
+            }
+            return true;
         }
     },
 
