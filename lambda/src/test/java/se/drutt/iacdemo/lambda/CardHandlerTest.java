@@ -87,7 +87,7 @@ class CardHandlerTest
         CardResponse cardResponse = CardResponse.getInstance(responseEvent.getBody());
         assertEquals(cardResponse.message, "Success");
         assertNotNull(cardResponse.cards);
-        assertEquals(cardResponse.cards.length, 3);
+        assertEquals(cardResponse.cards.length, 5);
     }
 
     private static Configuration loadConfig(String fileName)

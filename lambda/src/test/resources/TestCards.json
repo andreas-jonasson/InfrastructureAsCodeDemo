@@ -29,6 +29,24 @@
         "Damaged and/or compacted roots"
       ],
       "correctOptions": [ true, true, true, true, true ]
+    },
+    {
+      "question": "Why does water feel wet?",
+      "options": [
+        "The surface tension of water makes it stick to the skin without a thin layer of insulating air in between.",
+        "The heat capacity of water is high compared to other liquids.",
+        "The evaporation of water vapour cools the water."
+      ],
+      "correctOptions": [ false, false, true ]
+    },
+    {
+      "question": "Why is the rainbow curved?",
+      "options": [
+        "The sun is a sphere it casts a circular shape that creates a curved rainbow.",
+        "The lens of the eye is round the rainbow appears to be curved.",
+        "The effect comes from the refraction through round droplet of water."
+      ],
+      "correctOptions": [ true, false, false ]
     }
   ]
 }

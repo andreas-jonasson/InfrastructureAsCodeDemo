@@ -27,7 +27,7 @@ class CardsTest
     {
         Cards cards = Cards.getInstance(Loader.readFile(CARDS_PATH));
         assertNotNull(cards.cards);
-        assertEquals(cards.cards.size(), 3);
+        assertEquals(cards.cards.size(), 5);
     }
 
     @Test
